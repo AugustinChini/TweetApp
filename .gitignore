@@ -1,0 +1,5 @@
+# Ignorer les .class
+*.class
+
+# Ignorer le repertoire /bin
+bin/**

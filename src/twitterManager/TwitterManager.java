@@ -76,7 +76,7 @@ public class TwitterManager {
 	}
 	
 	
-	public void searchTweets(String keyWord) {
+	public void searchTweets(String keyWord, String date) {
 		
 		System.out.println("\n===============================================================\n");
 		
@@ -86,12 +86,12 @@ public class TwitterManager {
 		//definir le format de la date
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         
-        System.out.println( sdf.format(beginDate.getTime()) );
+        System.out.println( date );
         
 		//tweets = searcher.getTweets("starwars", sdf.format(beginDate.getTime()));
         List<Status> tweets =null;
 		try {
-			tweets = getTweets(keyWord);
+			tweets = getTweets(keyWord, date);
 		} catch (TwitterException e1) {
 			e1.printStackTrace();
 			System.out.println("Could not find tweets ...");

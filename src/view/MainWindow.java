@@ -7,15 +7,14 @@ import java.awt.event.ActionListener;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -30,6 +29,7 @@ public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private JTextField textField;
+	private JTextField textFieldDate;
 	
 	JPanel tweetContainer;
 
@@ -44,26 +44,9 @@ public class MainWindow extends JFrame {
 		// size on the window
 		setPreferredSize( new Dimension(1450, 720) );
 		
-		// ----- Add jMenuBar ----- //
-    	JMenuBar menuBar = new JMenuBar();
-    	
-    	JMenu menu1 = new JMenu("Option");
-		
-		JMenuItem refresh = new JMenuItem("Refresh   ( F5 )");
-		menu1.add(refresh);
-		
-		menu1.addSeparator();
- 
-		JMenuItem quitter = new JMenuItem("Exit         ( Esc )");
-		menu1.add(quitter);
-		menuBar.add(menu1);
-		
-		this.setJMenuBar(menuBar);
-		// ----- End Add jMenuBar ----- //
-		
 		
 		// ----- Add Form tweet search ----- //
-		JPanel formPane = new JPanel(new GridLayout(1,3) );
+		JPanel formPane = new JPanel(new GridLayout(1,4) );
 		
 		
 		// Label
@@ -72,10 +55,19 @@ public class MainWindow extends JFrame {
 		formPane.add(l);
 		
 		// Text field
-		textField = new JTextField();
-		textField.setPreferredSize( new Dimension( 200,30 ) );
+		textField = new JTextField("starwars");
+		textField.setPreferredSize( new Dimension( 100,30 ) );
 		
 		formPane.add(textField);
+		
+		// Text field date
+		Calendar beginDate = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		textFieldDate = new JTextField(sdf.format(beginDate.getTime()));
+		textFieldDate.setPreferredSize( new Dimension( 100,30 ) );
+		
+		formPane.add(textFieldDate);
 		
 		// Button search
 		JButton searchBt = new JButton("Search");
@@ -102,14 +94,19 @@ public class MainWindow extends JFrame {
 		return textField.getText();
 	}
 	
+	public String getDateTextFieldValue()
+	{
+		return textFieldDate.getText();
+	}
+	
 	public void fillTweetContainer(List<Tweet> tweets)
 	{
+		tweetContainer.removeAll();
 		// Fill container with tweets
 		for(Tweet tweet : tweets) {
-			tweetContainer.removeAll();
 			tweetContainer.add( new TweetComponent(tweet) );
-			SwingUtilities.updateComponentTreeUI(this);
 		}
+		SwingUtilities.updateComponentTreeUI(this);
 	}
 }
 
@@ -119,6 +116,8 @@ class EventHandler implements ActionListener
 {
 
 	private String keyWord;
+	
+	private String date;
 	
 	TwitterManager tm;
 	
@@ -134,9 +133,10 @@ class EventHandler implements ActionListener
 	public void actionPerformed(ActionEvent e) {
 		
 		keyWord = mw.getTextFieldValue();
+		date = mw.getDateTextFieldValue();
 		
 		System.out.println("KeyWord is : "+keyWord);
-		tm.searchTweets(keyWord);
+		tm.searchTweets(keyWord, date);
 		mw.fillTweetContainer(tm.getTweetsConverted());
 		
 	}

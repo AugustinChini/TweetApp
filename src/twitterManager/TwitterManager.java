@@ -1,8 +1,6 @@
 package twitterManager;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import model.Media;
@@ -79,12 +77,6 @@ public class TwitterManager {
 	public void searchTweets(String keyWord, String date) {
 		
 		System.out.println("\n===============================================================\n");
-		
-		Calendar beginDate = Calendar.getInstance();
-		beginDate.add(Calendar.DATE, -2);
-		
-		//definir le format de la date
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         
         System.out.println( date );
         

@@ -26,41 +26,7 @@ public class Main {
 				System.out.println(tweet.getCreatedAt() + " : " + tweet.getText());
 			}*/
 			
-			System.out.println("\n===============================================================\n");
-			
-			Calendar beginDate = Calendar.getInstance();
-			beginDate.add(Calendar.DATE, -2);
-			
-			//définir le format de la date
-	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	        
-	        System.out.println( sdf.format(beginDate.getTime()) );
-	        
-			//tweets = searcher.getTweets("starwars", sdf.format(beginDate.getTime()));
-	        List<Status> tweets = searcher.getTweets("starwars");
-			List<Tweet> tweetsConverted = new ArrayList<Tweet>();
-	        
-	        for(Status status : tweets)
-	        {
-	        	Tweet t = new Tweet();
-	        	t.createdAt = status.getCreatedAt();
-	        	t.profilUrl = status.getUser().getProfileImageURL();
-	        	t.userName = status.getUser().getName();
-	        	t.userScreenName = status.getUser().getScreenName();
-	        	t.text = status.getText();
-	        	
-	        	for(MediaEntity media : status.getMediaEntities()) {
-	        		Media m = new Media();
-	        		m.type = media.getType();
-	        		m.url = media.getMediaURL();
-	        		
-	        		t.medias.add(m);
-				}
-	        	
-	        	tweetsConverted.add(t);
-	        }
-	        
-			MainWindow window = new MainWindow(tweetsConverted);
+			MainWindow window = new MainWindow(searcher);
 			window.pack();
 			window.setVisible(true);
 			
